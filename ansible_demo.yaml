@@ -1,0 +1,32 @@
+---
+ - hosts: localhost
+   gather_facts: false
+   tasks:
+   - shell: git clone https://github.com/Golumsk123/test2019.git
+     ignore_errors: yes
+
+ - hosts: all
+   gather_facts: false
+   become: true
+#   vars:
+#     emp_id: "11170407"
+   vars_files: var_values.yaml
+   tasks:
+   - file:
+       path: /opt/SP/SDW/apps/binary/app
+       state: directory
+   - copy:
+       src: ./test2019/sheep.png
+       dest: /opt/SP/SDW/apps/binary/app/
+       mode: '0777'
+       backup: yes
+       owner: vagrant
+       group: vagrant
+   - file:
+       path: /opt/SP/SDW/apps/config
+       state: directory
+   - shell: mkdir -p /opt/SP/SDW/E02
+   - template:
+       src:  ./test2019/testfile.txt.j2
+       dest: /opt/SP/SDW/apps/config/testfile.txt
+   - shell: cd /opt/SP/SDW/E02 && ln -sf /opt/SP/SDW/apps/config/testfile.txt testfile.txt
