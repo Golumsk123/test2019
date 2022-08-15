@@ -1,0 +1,3 @@
+ansadmin@kmaster:~/learnAnsible$ cat var_values.yaml
+---
+ emp_id: "11170407"
